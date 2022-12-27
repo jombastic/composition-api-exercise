@@ -27,23 +27,21 @@
     </div>
     <div class="media-right">
       <button class="button is-light is-small"
-        :class="{ 'is-primary': isDark, 'is-info': !isDark }" @click="removeListing(listing)">
+        :class="{ 'is-primary': isDark, 'is-info': !isDark }" @click="removeListing">
         Remove
       </button>
     </div>
   </article>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
+<script setup>
+import { useStore } from 'vuex';
 
-export default {
-  name: 'ListingsListItem',
-  props: ['listing', 'isDark'],
-  methods: {
-    ...mapActions([
-      'removeListing'
-    ])
-  }
-}
+const props = defineProps(['listing', 'isDark']);
+
+// access the store
+const store = useStore();
+
+// methods
+const removeListing = () => store.dispatch('removeListing', props.listing);
 </script>

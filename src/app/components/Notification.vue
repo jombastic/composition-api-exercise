@@ -6,9 +6,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Notification',
-  props: ['notification', 'isDark']
-}
+<script setup>
+defineProps(['notification', 'isDark']);
 </script>
