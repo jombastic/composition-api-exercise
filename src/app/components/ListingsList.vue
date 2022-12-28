@@ -1,10 +1,10 @@
 <template>
   <div id="listings">
-    <Notification :notification="notification" :toggleNotification="toggleNotification" :isDark="isDark" />
+    <Notification :notification="notification" :toggleNotification="toggleNotification" />
     <div v-for="listing in listings" :key="listing.id">
-      <ListingsListItem :listing="listing" :isDark="isDark" />
+      <ListingsListItem :listing="listing" />
     </div>
-    <button class="button is-light" :class="{ 'is-primary': isDark, 'is-info': !isDark }" @click="resetListings"
+    <button class="button is-light" :class="{ 'is-primary': darkMode, 'is-info': !darkMode }" @click="resetListings"
       :disabled="listings.length === 3">
       Reset
     </button>
@@ -12,23 +12,24 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { onMounted, inject } from 'vue';
 import ListingsListItem from './ListingsListItem';
 import Notification from './Notification';
 
 import useNotification from '../hooks/useNotification';
+import useDarkMode from '../hooks/useDarkMode';
 
-defineProps(['listings', 'isDark']);
+defineProps(['listings']);
 
 // access the store
-const store = useStore();
+const store = inject('store');
 
+const { darkMode } = useDarkMode();
 const { notification, setNotification, toggleNotification } = useNotification();
 
 // methods
 const resetListings = () => {
-  store.dispatch('resetListings');
+  store.actions.resetListings();
 };
 
 // mounted lifecycle hooks

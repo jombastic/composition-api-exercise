@@ -5,13 +5,20 @@ const data = reactive({
     active: false
 });
 
+let timeout;
 const useNotification = () => {
     const setNotification = (newMessage) => {
         data.message = newMessage;
         data.active = true;
-    };
 
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            toggleNotification();
+        }, 5000);
+    };
+    
     const toggleNotification = () => {
+        clearTimeout(timeout);
         data.active = !data.active;
     };
 

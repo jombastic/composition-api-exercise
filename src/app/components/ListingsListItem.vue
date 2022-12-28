@@ -7,19 +7,19 @@
     </figure>
     <div class="media-content">
       <div class="content">
-        <p :class="{ 'has-text-white': isDark }">
-          <strong :class="{ 'has-text-white': isDark }">
+        <p :class="{ 'has-text-white': darkMode }">
+          <strong :class="{ 'has-text-white': darkMode }">
             {{ listing.title }}
           </strong>
           <small class="pl-1" 
-            :class="{ 'has-text-primary': isDark, 'has-text-info': !isDark }">
+            :class="{ 'has-text-primary': darkMode, 'has-text-info': !darkMode }">
             {{ listing.address }}
           </small>
           <br>
           {{ listing.description }}
           <br>
           <small class="has-text-weight-bold"
-            :class="{ 'has-text-primary': isDark, 'has-text-info': !isDark }">
+            :class="{ 'has-text-primary': darkMode, 'has-text-info': !darkMode }">
             <span>${{ listing.price/100 }}/day</span> · <span>Rating: {{ listing.rating }}/5</span>
           </small>
         </p>
@@ -27,7 +27,7 @@
     </div>
     <div class="media-right">
       <button class="button is-light is-small"
-        :class="{ 'is-primary': isDark, 'is-info': !isDark }" @click="removeListing">
+        :class="{ 'is-primary': darkMode, 'is-info': !darkMode }" @click="removeListing">
         Remove
       </button>
     </div>
@@ -35,13 +35,17 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
+import { inject } from 'vue';
+import useDarkMode from '../hooks/useDarkMode';
 
-const props = defineProps(['listing', 'isDark']);
+const props = defineProps(['listing']);
 
 // access the store
-const store = useStore();
+const store = inject('store');
+
+const { darkMode } = useDarkMode();
+
 
 // methods
-const removeListing = () => store.dispatch('removeListing', props.listing);
+const removeListing = () => store.actions.removeListing(props.listing);
 </script>
